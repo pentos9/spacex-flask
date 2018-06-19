@@ -1,0 +1,42 @@
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <property name="LOG_PATH" value="/Users/lucas/projects/spacex-flask" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 滚动文件输出配置 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/logFile.log</file>
+
+        <!-- 设置滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--设置日志命名模式-->
+            <fileNamePattern>${LOG_PATH}/logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--最多保留30天log-->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <!-- 超过1024MB时，触发滚动策略 -->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>50MB</maxFileSize>
+        </triggeringPolicy>
+
+        <!-- 日志内容格式 -->
+        <encoder>
+            <!--<pattern>%d [%p] %-5level %logger - %msg%newline</pattern>-->
+            <pattern> %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+
+</configuration>
