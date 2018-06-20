@@ -19,4 +19,8 @@ public class BlackListServiceImpl {
         blackListMap.putAll(ids);
     }
 
+    public static Map<String, Boolean> getBlackList() {
+        return blackListMap;
+    }
+
 }

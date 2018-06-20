@@ -106,4 +106,9 @@ public class CopyOnWriteMap<K, V> implements Map<K, V>, Cloneable {
     public Set<Entry<K, V>> entrySet() {
         return initialMap.entrySet();
     }
+
+    @Override
+    public String toString() {
+        return initialMap.toString();
+    }
 }
