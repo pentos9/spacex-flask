@@ -1,7 +1,7 @@
 package com.spacex.concurrent;
 
 import com.spacex.concurrent.forkjoin.CustomForkJoinTask;
-import com.spacex.concurrent.forkjoin.RecursiveTask;
+import com.spacex.concurrent.forkjoin.CustomRecursiveTask;
 
 import java.util.concurrent.ForkJoinPool;
 
@@ -12,7 +12,7 @@ public class ForkJoinPoolTest {
 
     public static void run() {
         ForkJoinPool forkJoinPool = new ForkJoinPool(3);
-        RecursiveTask task = new RecursiveTask();
+        CustomRecursiveTask task = new CustomRecursiveTask();
         forkJoinPool.invoke(task);
         forkJoinPool.execute(new CustomForkJoinTask());
     }
