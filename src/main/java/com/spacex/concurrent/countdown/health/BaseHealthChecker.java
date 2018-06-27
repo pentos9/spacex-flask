@@ -28,6 +28,7 @@ public abstract class BaseHealthChecker implements Runnable {
             serviceUp = true;
         } catch (Throwable throwable) {
             serviceUp = false;
+            logger.error(String.format("%s", throwable));
         } finally {
             if (latch != null) {
                 latch.countDown();

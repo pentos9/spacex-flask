@@ -18,13 +18,14 @@ public class ServiceHealthStartUp {
 
     public static boolean checkEternalServices() {
 
-        final int latchSize = 3;
+        final int latchSize = 4;
         final int threadPoolSize = 5;
         CountDownLatch latch = new CountDownLatch(latchSize);
         List<BaseHealthChecker> services = new ArrayList<>();
         services.add(new NetworkHealthChecker(latch));
         services.add(new CacheHealthChecker(latch));
         services.add(new DatabaseHealthChecker(latch));
+        services.add(new BadHealthChecker(latch));
 
         ExecutorService executorService = Executors.newFixedThreadPool(threadPoolSize);
 
