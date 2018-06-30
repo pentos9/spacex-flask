@@ -2,13 +2,13 @@ package com.spacex.concurrent.countdown;
 
 import java.util.concurrent.CountDownLatch;
 
-public class CountDownWorker implements Runnable {
+public class CountDownGardener implements Runnable {
 
     private String name;
     private long delay;
     private CountDownLatch countDownLatch;
 
-    public CountDownWorker(String name, long delay, CountDownLatch countDownLatch) {
+    public CountDownGardener(String name, long delay, CountDownLatch countDownLatch) {
         this.name = name;
         this.delay = delay;
         this.countDownLatch = countDownLatch;

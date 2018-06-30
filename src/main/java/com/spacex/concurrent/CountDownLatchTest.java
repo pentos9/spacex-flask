@@ -1,6 +1,6 @@
 package com.spacex.concurrent;
 
-import com.spacex.concurrent.countdown.CountDownWorker;
+import com.spacex.concurrent.countdown.CountDownGardener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +27,7 @@ public class CountDownLatchTest {
         final CountDownLatch latch = new CountDownLatch(10);
         ExecutorService executorService = Executors.newFixedThreadPool(threadPoolSize);
         for (int i = 0; i < 10; i++) {
-            executorService.submit(new CountDownWorker(String.valueOf(i), 1000L, latch));
+            executorService.submit(new CountDownGardener(String.valueOf(i), 1000L, latch));
         }
 
         try {
