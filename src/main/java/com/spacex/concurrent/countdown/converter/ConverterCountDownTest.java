@@ -38,7 +38,7 @@ public class ConverterCountDownTest {
             }
         }
         await(latch);
-        results.forEach(System.out::println);
+        results.forEach(logger::info);
         exec.shutdown();
         logger.info("[Converter] All job were finished");
     }
