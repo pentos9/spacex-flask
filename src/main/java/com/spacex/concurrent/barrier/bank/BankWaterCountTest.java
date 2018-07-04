@@ -16,7 +16,7 @@ public class BankWaterCountTest {
     public static void run() {
         final int barrierCount = 5;
         CyclicBarrier cyclicBarrier = new CyclicBarrier(barrierCount + 1);
-        ExecutorService executorService = Executors.newFixedThreadPool(barrierCount + 1);
+        ExecutorService executorService = Executors.newFixedThreadPool(barrierCount);
         ConcurrentHashMap<String, Integer> sheetBankWaterCount = new ConcurrentHashMap<>();
 
         for (int i = 0; i < barrierCount; i++) {
