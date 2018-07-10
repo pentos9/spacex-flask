@@ -1,17 +1,23 @@
 package com.spacex.concurrent.threadlocal.random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ThreadLocalRandomTest {
+
+    private static Logger logger = LoggerFactory.getLogger(ThreadLocalRandomTest.class);
+
     public static void main(String[] args) {
         run();
     }
 
     public static void run() {
-        System.out.println("[Local Random With Latch]");
+        logger.info("[Local Random With Latch]");
         final int threadCount = 200;
         CountDownLatch startLatch = new CountDownLatch(1);
         CountDownLatch endLatch = new CountDownLatch(threadCount);
@@ -21,8 +27,9 @@ public class ThreadLocalRandomTest {
                 try {
                     await(startLatch);
                     ThreadLocalRandom random = ThreadLocalRandom.current();
-                    sleep(random.nextInt(1000));
-                    System.out.println(random.nextInt());
+                    int sleepTime = random.nextInt(1000);
+                    sleep(sleepTime);
+                    logger.info("[sleepTime=]" + sleepTime + "," + random.nextInt());
                 } finally {
                     endLatch.countDown();
                 }
@@ -32,7 +39,7 @@ public class ThreadLocalRandomTest {
 
         startLatch.countDown();
         await(endLatch);
-        System.out.println("[Random] Test done!");
+        logger.info("[Random] Test done!");
         exec.shutdown();
     }
 
