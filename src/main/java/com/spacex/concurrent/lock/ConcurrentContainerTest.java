@@ -22,7 +22,7 @@ public class ConcurrentContainerTest {
             exec.submit(() -> {
                 try {
                     await(startLatch);
-                    threadSafeArrayList.add(String.format("Worker-%s", counter.getAndAdd(1)));
+                    threadSafeArrayList.add(String.format("Worker-%s-%s", Thread.currentThread().getName(), counter.addAndGet(1)));
                 } finally {
                     endLatch.countDown();
                 }
@@ -32,8 +32,8 @@ public class ConcurrentContainerTest {
         startLatch.countDown();
         await(endLatch);
 
-        System.out.println(String.format("[Worker] %s", counter.get()));
         System.out.println(threadSafeArrayList.get(0));
+        System.out.println(threadSafeArrayList.size());
         exec.shutdown();
     }
 
