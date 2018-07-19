@@ -15,7 +15,12 @@ public class ThreadSafeArrayList<E> {
     public void add(E object) {
         try {
             writeLock.lock();
+            if (list.size() > 0) {
+                System.out.println("Container is full now,can not add any more!");
+                return;
+            }
             list.add(object);
+            System.out.println(String.format("[Worker-%s] added successfully!", Thread.currentThread().getName()));
         } finally {
             writeLock.unlock();
         }
@@ -25,6 +30,15 @@ public class ThreadSafeArrayList<E> {
         try {
             readLock.lock();
             return list.get(index);
+        } finally {
+            readLock.unlock();
+        }
+    }
+
+    public int size() {
+        try {
+            readLock.lock();
+            return list.size();
         } finally {
             readLock.unlock();
         }
