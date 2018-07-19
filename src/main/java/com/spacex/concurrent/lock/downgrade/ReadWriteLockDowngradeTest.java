@@ -18,7 +18,7 @@ public class ReadWriteLockDowngradeTest {
     private Lock readLock = lock.readLock();
     private Lock writeLock = lock.writeLock();
 
-    private AtomicLong readCounter = new AtomicLong(0);
+    private AtomicLong readerCounter = new AtomicLong(0);
     private AtomicLong writerCounter = new AtomicLong(0);
 
 
@@ -42,7 +42,7 @@ public class ReadWriteLockDowngradeTest {
         startLatch.countDown();
         await(endLatch);
         System.out.println(String.format("[Job] Done! currentValue:%s", currentValue));
-        System.out.println(String.format("read thread counter:%s,write thread counter:%s", readCounter.get(), writerCounter.get()));
+        System.out.println(String.format("read thread counter:%s,write thread counter:%s", readerCounter.get(), writerCounter.get()));
         exec.shutdown();
 
     }
@@ -59,9 +59,9 @@ public class ReadWriteLockDowngradeTest {
         readLock.lock();
 
         if (!cacheValid) {
-            readCounter.incrementAndGet();
+            readerCounter.incrementAndGet();
             readLock.unlock();
-            System.out.println("[Release] Lock:" + readCounter.get());
+            System.out.println("[Release] Lock:" + readerCounter.get());
             writeLock.lock();
             writerCounter.incrementAndGet();
             System.out.println("[Write Lock] Lock");
@@ -77,7 +77,7 @@ public class ReadWriteLockDowngradeTest {
             }
 
         } else {
-            System.out.println("[Print]" + readCounter.get());
+            System.out.println("[Print]" + readerCounter.get());
         }
 
         try {
