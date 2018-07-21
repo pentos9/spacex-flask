@@ -17,8 +17,8 @@ public class LineNumberCalculatorTest {
     }
 
     public static void run() {
-        final String path = "/Users/lucas/projects/spacex-flask";
-        final String suffix = "java";
+        final String path = "/Users/lucas/projects/spring-boot-shane";
+        final String suffix = ".java";
         final File file = new File(path);
         long totalLine = calculateLineNumber(file, suffix);
         System.out.println("Total:" + totalLine);
@@ -42,7 +42,7 @@ public class LineNumberCalculatorTest {
             try {
 
                 String fileName = file.getName();
-                if (!fileName.toLowerCase().endsWith("." + suffix)) {
+                if (!fileName.toLowerCase().endsWith(suffix)) {
                     return 0;
                 }
 
