@@ -1,5 +1,7 @@
 package com.spacex.concurrent.atomic;
 
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
@@ -42,21 +44,22 @@ public class AtomicReferenceTest {
     }
 
     public static void withStampReference() {
-        final int stamp = 1;
-        AtomicStampedReference<Person> s = new AtomicStampedReference<>(new Person(20), stamp);
+
+        final AtomicInteger stampHolder = new AtomicInteger(1);
+        AtomicStampedReference<Person> s = new AtomicStampedReference<>(new Person(20), stampHolder.get());
         Thread t1 = new Thread(() -> {
             for (int i = 1; i <= 3; i++) {
-                System.out.println("[T2-WithStampReference] Stamp Value for first thread:" + stamp);
-                s.compareAndSet(s.getReference(), new Person(s.getReference().getAge() + 10), stamp, (stamp + 1));
-                System.out.println("[T2-WithStampReference] Atomic Check by first thread:" + Thread.currentThread().getName() + "is " + s.getReference().getAge());
+                System.out.println("[T1-WithStampReference] Stamp Value for first thread:" + stampHolder.get());
+                s.compareAndSet(s.getReference(), new Person(s.getReference().getAge() + 10), stampHolder.get(), stampHolder.addAndGet(1));
+                System.out.println("[T1-WithStampReference] Atomic Check by first thread:" + Thread.currentThread().getName() + " is " + s.getReference().getAge());
             }
         });
 
 
         Thread t2 = new Thread(() -> {
             for (int j = 1; j <= 3; j++) {
-                System.out.println("[T2-WithStampReference] stamp value for second thread:" + stamp);
-                s.compareAndSet(s.getReference(), new Person(s.getReference().getAge() + 10), stamp, (stamp + 1));
+                System.out.println("[T2-WithStampReference] stamp value for second thread:" + stampHolder.get());
+                s.compareAndSet(s.getReference(), new Person(s.getReference().getAge() + 10), stampHolder.get(), stampHolder.addAndGet(1));
                 System.out.println("[T2-WithStampReference] Atomic Check by first thread:" + Thread.currentThread().getName() + " is " + s.getReference().getAge());
             }
         });
