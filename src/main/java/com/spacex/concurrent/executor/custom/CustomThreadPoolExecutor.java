@@ -16,6 +16,7 @@ public class CustomThreadPoolExecutor {
     private static final int MAXIMUM_POOL_SIZE = CPU_COUNT * 2 + 1;
     private static final int KEEP_ALIVE_SECONDS = 30;
     private static final BlockingQueue<Runnable> sPoolWorkQueue = new LinkedBlockingDeque<>(128);
+    public static final ExecutorService THREAD_POOL_EXECUTOR;
 
     private static final ThreadFactory threadFactory = new ThreadFactory() {
         private final AtomicInteger mCount = new AtomicInteger(1);
@@ -26,7 +27,6 @@ public class CustomThreadPoolExecutor {
         }
     };
 
-    public static final ExecutorService THREAD_POOL_EXECUTOR;
 
     static {
         RejectedExecutionHandler handler = new RejectedExecutionHandler() {
