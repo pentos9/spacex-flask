@@ -1,6 +1,7 @@
 package com.spacex.concurrent.exchanger;
 
-import org.assertj.core.util.Lists;
+
+import com.google.common.collect.Lists;
 
 import java.util.List;
 import java.util.concurrent.Exchanger;
