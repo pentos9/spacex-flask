@@ -2,25 +2,19 @@ package com.spacex.concurrent.loadbalance;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
-public class RoundRobin implements LoadBalance {
-    private static Integer position = 0;
+public class RandomLoadBalance implements LoadBalance {
 
     @Override
     public String getServer(String clientIp) {
         Set<String> servers = IpPool.ipMap.keySet();
         List<String> serverList = new ArrayList<>();
         serverList.addAll(servers);
-        String target = null;
+        int randomIndex = new Random().nextInt(serverList.size());
+        String target = serverList.get(randomIndex);
 
-        synchronized (position) {
-            if (position > serverList.size() - 1) {
-                position = 0;
-            }
-            target = serverList.get(position);
-            position++;
-        }
         return target;
     }
 }
