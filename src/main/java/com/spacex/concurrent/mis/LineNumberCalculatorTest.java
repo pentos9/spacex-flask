@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
+import java.util.Arrays;
+import java.util.List;
 
 public class LineNumberCalculatorTest {
 
@@ -17,11 +19,21 @@ public class LineNumberCalculatorTest {
     }
 
     public static void run() {
-        final String path = "/Users/lucas/projects/spring-boot-shane";
+        final String path = "/Users/lucas/projects/spacex-flask";
         final String suffix = ".java";
         final File file = new File(path);
         long totalLine = calculateLineNumber(file, suffix);
         System.out.println("Total:" + totalLine);
+
+        long total = 0;
+        final List<String> paths = Arrays.asList("/Users/lucas/projects/spacex-flask", "/Users/lucas/projects/spacex-rider", "/Users/lucas/projects/spacex-shane", "/Users/lucas/projects/treasure", "/Users/lucas/projects/flask-rocket");
+        for (String item : paths) {
+            long count = calculateLineNumber(new File(item), suffix);
+            total = total + count;
+        }
+
+        System.out.println("Total:" + total);
+
     }
 
     public static long calculateLineNumber(File file, String suffix) {
