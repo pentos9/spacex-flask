@@ -20,15 +20,15 @@ public class LineNumberCalculatorTest {
 
     public static void run() {
         final String path = "/Users/lucas/projects/spacex-flask";
-        final String suffix = ".java";
+        final List<String> suffixList = Arrays.asList(".java");
         final File file = new File(path);
-        long totalLine = calculateLineNumber(file, suffix);
+        long totalLine = calculateLineNumber(file, suffixList);
         System.out.println("Total:" + totalLine);
 
         long total = 0;
         final List<String> paths = Arrays.asList("/Users/lucas/projects/spacex-flask", "/Users/lucas/projects/spacex-rider", "/Users/lucas/projects/spacex-shane", "/Users/lucas/projects/treasure", "/Users/lucas/projects/flask-rocket");
         for (String item : paths) {
-            long count = calculateLineNumber(new File(item), suffix);
+            long count = calculateLineNumber(new File(item), suffixList);
             total = total + count;
         }
 
@@ -36,7 +36,7 @@ public class LineNumberCalculatorTest {
 
     }
 
-    public static long calculateLineNumber(File file, String suffix) {
+    public static long calculateLineNumber(File file, List<String> suffixList) {
         long lineNumber = 0;
 
         if (file == null || !file.exists()) {
@@ -46,7 +46,7 @@ public class LineNumberCalculatorTest {
         if (file.isDirectory()) {
             File[] childFiles = file.listFiles();
             for (File childFile : childFiles) {
-                long lineNumberOfChildFile = calculateLineNumber(childFile, suffix);//recursive
+                long lineNumberOfChildFile = calculateLineNumber(childFile, suffixList);//recursive
                 lineNumber = lineNumberOfChildFile + lineNumber;
             }
 
@@ -54,7 +54,7 @@ public class LineNumberCalculatorTest {
             try {
 
                 String fileName = file.getName();
-                if (!fileName.toLowerCase().endsWith(suffix)) {
+                if (!matchFile(fileName, suffixList)) {
                     return 0;
                 }
 
@@ -73,5 +73,25 @@ public class LineNumberCalculatorTest {
         }
 
         return lineNumber;
+    }
+
+
+    public static boolean matchFile(String fileName, List<String> suffixList) {
+
+        if (fileName == null || fileName.trim().isEmpty()) {
+            return false;
+        }
+
+        if (suffixList == null || suffixList.isEmpty()) {
+            return false;
+        }
+
+        for (String suffix : suffixList) {
+            if (fileName.endsWith(suffix)) {
+                return true;
+            }
+
+        }
+        return false;
     }
 }
